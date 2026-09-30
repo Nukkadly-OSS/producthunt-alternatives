@@ -32,6 +32,72 @@ const queryInput = document.querySelector("#query");
 const resultCount = document.querySelector("#result-count");
 const emptyState = document.querySelector("#empty-state");
 const listPane = document.querySelector(".dir-main");
+const mobileQueryInput = document.querySelector("#mobile-query");
+const mobileResultCount = document.querySelector("#mobile-result-count");
+const mobileCategoryNav = document.querySelector("#mobile-category-nav");
+const mobileSearchButton = document.querySelector("#mobile-search-button");
+const mobileMenuButton = document.querySelector("#mobile-menu-button");
+const mobileFilterButton = document.querySelector("#mobile-filter-button");
+const mobileViewport = window.matchMedia("(max-width: 820px)");
+const mobilePanels = [...document.querySelectorAll(".dir-mobile-panel")];
+const mobileButtons = [mobileSearchButton, mobileMenuButton, mobileFilterButton];
+
+function activeFilterCount() {
+  return ["access", "linkType", "dr"].filter((key) => state[key] !== "all").length;
+}
+
+function syncMobileChrome() {
+  const count = activeFilterCount();
+  const badge = document.querySelector("#mobile-filter-count");
+  badge.hidden = count === 0;
+  badge.textContent = String(count);
+  mobileFilterButton.setAttribute("aria-label", count ? `Filters, ${count} active` : "Filters");
+  const category = state.category === "all" ? "all categories" : state.category;
+  mobileMenuButton.setAttribute("aria-label", `Browse ${category}`);
+}
+
+function syncMobileScrollLock() {
+  if (!mobileViewport.matches) {
+    document.documentElement.style.overflow = "";
+    return;
+  }
+  const menuOpen = !document.querySelector("#mobile-menu-panel").hidden;
+  const filterOpen = !document.querySelector("#mobile-filter-panel").hidden;
+  document.documentElement.style.overflow = menuOpen || filterOpen ? "hidden" : "";
+}
+
+function closeMobilePanels() {
+  mobilePanels.forEach((panel) => {
+    panel.hidden = true;
+  });
+  mobileButtons.forEach((button) => button.setAttribute("aria-expanded", "false"));
+  syncMobileScrollLock();
+}
+
+function toggleMobilePanel(panelId, trigger) {
+  const panel = document.querySelector(`#${panelId}`);
+  const wasOpen = !panel.hidden;
+  closeMobilePanels();
+  if (wasOpen) return;
+  panel.hidden = false;
+  trigger.setAttribute("aria-expanded", "true");
+  syncMobileScrollLock();
+}
+
+function resetMobileFilters() {
+  state.access = "all";
+  state.linkType = "all";
+  state.dr = "all";
+  state.sort = "name-asc";
+  document.querySelectorAll("[data-mobile-filter]").forEach((select) => {
+    select.value = select.dataset.mobileFilter === "sort" ? "name-asc" : "all";
+  });
+  setDropdownValue("access", "all");
+  setDropdownValue("linkType", "all");
+  setDropdownValue("dr", "all");
+  setDropdownValue("sort", "name-asc");
+  render();
+}
 
 function slug(category) {
   return `section-${category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
@@ -104,6 +170,7 @@ function navButton(category, count) {
     event.preventDefault();
     state.category = category;
     render();
+    closeMobilePanels();
     if (isAll) {
       listPane.scrollTop = 0;
       return;
@@ -113,6 +180,29 @@ function navButton(category, count) {
   return item;
 }
 
+function mobileNavButton(category, count) {
+  const button = document.createElement("button");
+  button.className = "dir-mobile-category-button";
+  button.type = "button";
+  if (state.category === category) button.setAttribute("aria-current", "page");
+
+  const label = document.createElement("span");
+  label.textContent = category === "all" ? "All" : category;
+  const value = document.createElement("span");
+  value.className = "dir-meta dir-numeric";
+  value.textContent = String(count);
+  button.append(label, value);
+
+  button.addEventListener("click", () => {
+    state.category = category;
+    render();
+    closeMobilePanels();
+    if (category === "all") listPane.scrollTop = 0;
+    else document.querySelector(`#${slug(category)}`)?.scrollIntoView({ block: "start" });
+  });
+  return button;
+}
+
 function renderNavigation() {
   const counts = new Map();
   state.platforms.forEach((platform) => counts.set(platform.category, (counts.get(platform.category) || 0) + 1));
@@ -120,6 +210,10 @@ function renderNavigation() {
   categoryNav.replaceChildren(
     navButton("all", state.platforms.length),
     ...state.categories.map((category) => navButton(category, counts.get(category) || 0))
+  );
+  mobileCategoryNav.replaceChildren(
+    mobileNavButton("all", state.platforms.length),
+    ...state.categories.map((category) => mobileNavButton(category, counts.get(category) || 0))
   );
 }
 
@@ -242,11 +336,13 @@ function renderDirectory() {
   directory.hidden = visible.length === 0;
   emptyState.hidden = visible.length > 0;
   resultCount.textContent = `${visible.length}`;
+  mobileResultCount.textContent = `${visible.length}`;
 }
 
 function render() {
   renderNavigation();
   renderDirectory();
+  syncMobileChrome();
 }
 
 async function loadDirectory() {
@@ -276,6 +372,10 @@ document.querySelector("#clear-button").addEventListener("click", () => {
   state.dr = "all";
   state.sort = "name-asc";
   queryInput.value = "";
+  mobileQueryInput.value = "";
+  document.querySelectorAll("[data-mobile-filter]").forEach((select) => {
+    select.value = select.dataset.mobileFilter === "sort" ? "name-asc" : "all";
+  });
   setDropdownValue("access", "all");
   setDropdownValue("linkType", "all");
   setDropdownValue("dr", "all");
@@ -284,20 +384,68 @@ document.querySelector("#clear-button").addEventListener("click", () => {
 });
 queryInput.addEventListener("input", (event) => {
   state.query = event.target.value;
+  mobileQueryInput.value = event.target.value;
   render();
+});
+mobileQueryInput.addEventListener("input", (event) => {
+  state.query = event.target.value;
+  queryInput.value = event.target.value;
+  render();
+});
+document.querySelectorAll("[data-mobile-filter]").forEach((select) => {
+  select.addEventListener("change", (event) => {
+    const name = event.target.dataset.mobileFilter;
+    state[name] = event.target.value;
+    setDropdownValue(name, event.target.value);
+    render();
+  });
 });
 document.addEventListener("keydown", (event) => {
   if (event.target.closest("[data-dropdown]")) return;
   if (event.key === "/" && !event.target.matches("input, textarea, select, button")) {
     event.preventDefault();
-    queryInput.focus();
+    if (mobileViewport.matches) {
+      toggleMobilePanel("mobile-search-panel", mobileSearchButton);
+      mobileQueryInput.focus();
+    } else queryInput.focus();
+  }
+  if (event.key === "Escape" && mobileViewport.matches) closeMobilePanels();
+});
+
+mobileSearchButton.addEventListener("click", () => {
+  toggleMobilePanel("mobile-search-panel", mobileSearchButton);
+  if (mobileSearchButton.getAttribute("aria-expanded") === "true") {
+    requestAnimationFrame(() => mobileQueryInput.focus());
   }
 });
+
+mobileMenuButton.addEventListener("click", () => {
+  toggleMobilePanel("mobile-menu-panel", mobileMenuButton);
+});
+
+mobileFilterButton.addEventListener("click", () => {
+  toggleMobilePanel("mobile-filter-panel", mobileFilterButton);
+  if (mobileFilterButton.getAttribute("aria-expanded") === "true") {
+    requestAnimationFrame(() => document.querySelector("#mobile-filter-access")?.focus());
+  }
+});
+
+document.querySelector("#mobile-reset-filters").addEventListener("click", resetMobileFilters);
+
+document.addEventListener("pointerdown", (event) => {
+  if (!mobileViewport.matches) return;
+  if (event.target.closest(".dir-mobile-ui")) return;
+  closeMobilePanels();
+});
+
+mobileViewport.addEventListener("change", closeMobilePanels);
 
 initThemeControls();
 bindGitHubLinks();
 bindDropdowns((name, value) => {
   state[name] = value;
+  const mobileControl = document.querySelector(`[data-mobile-filter="${name}"]`);
+  if (mobileControl) mobileControl.value = value;
   render();
 });
 loadDirectory();

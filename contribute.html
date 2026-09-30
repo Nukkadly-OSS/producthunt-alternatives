@@ -25,6 +25,7 @@
               ? "dark"
               : "light";
         document.documentElement.dataset.directoryTheme = theme;
+        document.documentElement.dataset.theme = theme;
       } catch {}
     </script>
   </head>
@@ -65,7 +66,7 @@
       <div class="dir-stage">
         <header class="dir-topbar">
           <p class="dir-meta dir-topbar-note">Add yours, fix a row, or report an inactive site.</p>
-          <button class="dir-button" id="theme-button" type="button" aria-label="Switch to dark mode">
+          <button class="dir-button" id="theme-button" data-theme-toggle type="button" aria-label="Switch to dark mode">
             <svg class="dir-theme-icon dir-icon-sun" viewBox="0 0 20 20" aria-hidden="true">
               <circle cx="10" cy="10" r="3.25" fill="none" stroke="currentColor" stroke-width="1.5" />
               <path

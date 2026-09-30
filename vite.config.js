@@ -3,7 +3,7 @@ import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const source = resolve("data/platforms.json");
-const siteUrl = String(process.env.SITE_URL || "").trim().replace(/\/$/, "");
+const siteUrl = String(process.env.SITE_URL || "https://launches.nukkadly.com").trim().replace(/\/$/, "");
 
 function escapeHtml(value) {
   return String(value)

@@ -2,6 +2,8 @@
 
 An open, searchable directory of 560 places to launch, list, and promote a software product. It brings together Product Hunt alternatives, startup directories, founder communities, developer launch platforms, review sites, regional platforms, and AI tool directories in one filterable list.
 
+[Browse the live directory](https://launches.nukkadly.com/) or [view the repository](https://github.com/Nukkadly-OSS/producthunt-alternatives).
+
 Use the directory to compare where a product can be submitted, whether a free option is available, what kind of outbound link a listing may receive, and the reported domain rating when that data is known.
 
 The canonical dataset is [`data/platforms.json`](data/platforms.json). Corrections and additions are welcome.

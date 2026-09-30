@@ -12,6 +12,6 @@ The canvas is a centered column with page gutters. The top bar holds search, a l
 
 - One `h1` in the sidebar. Category groups use `h2`.
 - Flex and grid children that hold text use `min-width: 0`.
-- Below 820px the sidebar stacks and category buttons scroll sideways.
+- Below 820px the category list and command bar are hidden. The editorial artwork is a wide banner at the top, with padding around the shell. The dock is a small centered pill: Search, Browse, Filter, and a dark mode control.
 - Hover changes color only. No shadows. No motion on hover.
 - Product favicons load from each product's own `/favicon.ico`. A text initial remains visible if the remote icon fails.
