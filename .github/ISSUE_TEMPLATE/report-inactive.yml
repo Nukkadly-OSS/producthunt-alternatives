@@ -1,0 +1,46 @@
+name: Report inactive
+description: Ask to remove a dead, parked, or abandoned directory.
+title: "Inactive: "
+labels:
+  - inactive
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name on the list
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Listed URL
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: dropdown
+    id: reason
+    attributes:
+      label: Why it should come off the list
+      options:
+        - Domain is parked or for sale
+        - Page is 404 or the host does not resolve
+        - Site is up but no longer lists products
+        - HTTPS is broken or the listing is a malware or scam trap
+        - Duplicate of another row
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What you saw
+      description: Date you checked, HTTP status if you have it, and a short note. A screenshot is optional.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I tried the listed HTTPS URL, not only a search snippet.
+          required: true

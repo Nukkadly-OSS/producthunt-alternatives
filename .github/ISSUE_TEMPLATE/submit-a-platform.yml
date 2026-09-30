@@ -1,0 +1,85 @@
+name: Submit a platform
+description: Add a launch site, community, or product directory.
+title: "Add: "
+labels:
+  - submission
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Platform name
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Public URL
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Launch platforms
+        - Founder communities
+        - Evergreen directories
+        - Developer launches
+        - Regional platforms
+        - Review sites
+        - AI directories
+        - Press
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What does it do?
+      description: One factual sentence. No slogans.
+    validations:
+      required: true
+  - type: dropdown
+    id: access
+    attributes:
+      label: Access
+      options:
+        - Free
+        - Free option
+        - Paid
+        - n/a
+    validations:
+      required: true
+  - type: dropdown
+    id: link-type
+    attributes:
+      label: Outbound link type, if you know it
+      options:
+        - Unknown
+        - Dofollow
+        - Nofollow
+    validations:
+      required: true
+  - type: input
+    id: domain-rating
+    attributes:
+      label: Domain rating
+      description: Integer from a public Ahrefs-style DR, or leave blank. Do not guess.
+  - type: dropdown
+    id: relationship
+    attributes:
+      label: Are you connected to this platform?
+      options:
+        - No
+        - Yes, I own it or work on it
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: The site is live and uses HTTPS.
+          required: true
+        - label: I read CONTRIBUTING.md.
+          required: true

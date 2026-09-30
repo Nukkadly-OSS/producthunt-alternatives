@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Compare Product Hunt alternatives by access, link type, domain rating, and category in an open, searchable directory." />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Product Hunt Alternatives Directory" />
+    <meta property="og:description" content="Search and compare launch platforms, founder communities, and software directories." />
+    <meta property="og:site_name" content="Product Hunt Alternatives Directory" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link href="assets/directory.css" rel="stylesheet" />
+    <title>Product Hunt Alternatives Directory: 560 Places to Launch</title>
+    <script>
+      try {
+        const saved = localStorage.getItem("directory-theme");
+        const theme =
+          saved === "light" || saved === "dark"
+            ? saved
+            : matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.dataset.directoryTheme = theme;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <script>
+      document.body.dataset.theme = document.documentElement.dataset.directoryTheme || "light";
+    </script>
+    <a class="dir-skip-link" href="#directory">Skip to list</a>
+
+    <div class="dir-page">
+    <div class="dir-app">
+      <aside class="dir-sidebar">
+        <div class="dir-brand">
+          <h1 class="dir-heading-16">Product Hunt Alternatives Directory</h1>
+          <p class="dir-caption">560 launch directories.</p>
+        </div>
+
+        <nav class="dir-nav" aria-label="Categories" id="category-nav"></nav>
+
+        <footer class="dir-sidebar-foot">
+          <p class="dir-meta">
+            <a href="contribute.html">Contribute</a>
+            ·
+            <a id="raw-data-link" href="data/platforms.json">JSON</a>
+            ·
+            <a data-github="root">GitHub</a>
+          </p>
+        </footer>
+      </aside>
+
+      <div class="dir-stage">
+        <header class="dir-topbar">
+          <form class="dir-field dir-search" id="search-form" role="search">
+            <label class="dir-visually-hidden" for="query">Search platforms</label>
+            <input id="query" name="query" type="search" autocomplete="off" spellcheck="false" placeholder="Search" />
+          </form>
+          <p class="dir-meta" id="result-count">Loading</p>
+          <button class="dir-button" id="theme-button" type="button" aria-label="Switch to dark mode">
+            <svg class="dir-theme-icon dir-icon-sun" viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="10" r="3.25" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                d="M10 2v2M10 16v2M2 10h2M16 10h2M4.35 4.35l1.4 1.4M14.25 14.25l1.4 1.4M15.65 4.35l-1.4 1.4M5.75 14.25l-1.4 1.4"
+              />
+            </svg>
+            <svg class="dir-theme-icon dir-icon-moon" viewBox="0 0 20 20" aria-hidden="true">
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                d="M16.5 12.4A6.9 6.9 0 0 1 7.6 3.5a6.9 6.9 0 1 0 8.9 8.9Z"
+              />
+            </svg>
+          </button>
+          <a class="dir-button" data-github="submit">Submit yours</a>
+        </header>
+
+        <div class="dir-toolbar" role="toolbar" aria-label="Filter and sort">
+          <div class="dir-unit-field dir-control dir-dropdown" data-dropdown="access">
+            <span class="dir-unit-prefix" aria-hidden="true">
+              <svg class="dir-tool-icon" viewBox="0 0 20 20">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.5 4.5h13l-4.75 5.5v4.25L8.25 16V10Z"
+                />
+              </svg>
+            </span>
+            <label class="dir-visually-hidden" for="filter-access">Filter by access</label>
+            <button
+              class="dir-dropdown-trigger"
+              type="button"
+              id="filter-access"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              data-value="all"
+            >
+              <span class="dir-dropdown-value">All</span>
+              <svg class="dir-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.5 7.75 10 12.25l4.5-4.5"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="dir-unit-field dir-control dir-dropdown" data-dropdown="linkType">
+            <span class="dir-unit-prefix" aria-hidden="true">
+              <svg class="dir-tool-icon" viewBox="0 0 20 20">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 7.25H6.25A2.75 2.75 0 1 0 6.25 12.75H8M12 12.75h1.75a2.75 2.75 0 1 0 0-5.5H12M7.5 10h5"
+                />
+              </svg>
+            </span>
+            <label class="dir-visually-hidden" for="filter-link">Filter by link type</label>
+            <button
+              class="dir-dropdown-trigger"
+              type="button"
+              id="filter-link"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              data-value="all"
+            >
+              <span class="dir-dropdown-value">All</span>
+              <svg class="dir-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.5 7.75 10 12.25l4.5-4.5"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="dir-unit-field dir-control dir-dropdown" data-dropdown="dr">
+            <span class="dir-unit-prefix" aria-hidden="true">
+              <svg class="dir-tool-icon" viewBox="0 0 20 20">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  d="M5 14.5v-2M9 14.5V8.5M13 14.5V5.5M17 14.5v-5"
+                />
+              </svg>
+            </span>
+            <label class="dir-visually-hidden" for="filter-dr">Filter by domain rating</label>
+            <button
+              class="dir-dropdown-trigger"
+              type="button"
+              id="filter-dr"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              data-value="all"
+            >
+              <span class="dir-dropdown-value">All</span>
+              <svg class="dir-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.5 7.75 10 12.25l4.5-4.5"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="dir-unit-field dir-control dir-dropdown" data-dropdown="sort">
+            <span class="dir-unit-prefix" aria-hidden="true">
+              <svg class="dir-tool-icon" viewBox="0 0 20 20">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6.5 4.5v11M6.5 4.5 4.25 6.75M6.5 4.5l2.25 2.25M13.5 15.5v-11M13.5 15.5l2.25-2.25M13.5 15.5l-2.25-2.25"
+                />
+              </svg>
+            </span>
+            <label class="dir-visually-hidden" for="sort-list">Sort list</label>
+            <button
+              class="dir-dropdown-trigger"
+              type="button"
+              id="sort-list"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              data-value="name-asc"
+            >
+              <span class="dir-dropdown-value">Name A to Z</span>
+              <svg class="dir-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.5 7.75 10 12.25l4.5-4.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <main id="main" class="dir-main">
+          <div id="directory" class="dir-directory"><!-- seo-directory --></div>
+
+          <section id="empty-state" class="dir-empty" hidden>
+            <p>No platforms match.</p>
+            <button class="dir-button" id="clear-button" type="button">Clear filters</button>
+          </section>
+
+          <p class="dir-meta dir-disclaimer">
+            Listings are informational and are not endorsements. Product names, favicons, and trademarks belong to their respective owners. This project is not affiliated with Product Hunt.
+          </p>
+        </main>
+      </div>
+    </div>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

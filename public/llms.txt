@@ -1,0 +1,8 @@
+# Product Hunt Alternatives Directory
+
+This is a community-maintained directory of Product Hunt alternatives, founder communities, developer launch boards, evergreen software directories, and regional startup platforms.
+
+The canonical directory data is available at:
+/data/platforms.json
+
+Listings are informational and are not endorsements. Product names and trademarks belong to their respective owners.

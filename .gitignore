@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+*.log
+
+# Superseded local artwork, not used by the static build
+assets/directory-mark.png
+public/hero-renaissance-bg-v2.webp
+public/data/
